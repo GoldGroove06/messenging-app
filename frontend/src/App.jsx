@@ -1,52 +1,41 @@
-import React, { useState, useEffect } from 'react'
-
-import './App.css'
-import { io } from 'socket.io-client';
-
+import React, { useState } from 'react'
+import Tabs from '@radui/ui/Tabs'
+import Heading from '@radui/ui/Heading'
+import Button from '@radui/ui/Button'
 
 function App() {
-  const [messages, setMessages] = useState([]);
-  const [input, setInput] = useState('');
-  const [roomId, setRoomId] = useState('');
-  const [join, setJoin] = useState(false);
-  const [socket, setSocket] = useState(null);
-
-  useEffect(() => {
-    if(!join) return;
-    console.log('join', join)
-    const socketInstance = io('http://localhost:3000');
-    
-    setSocket(socketInstance);
-    socketInstance.emit('joinroom', roomId);
-    socketInstance.on('chat message', (msg) => {
-      setMessages((prevMessages) => [...prevMessages, msg]);
-
-    });
-  }, [join])
-
-
-
-
-  const handleSubmit = (e) => {
-    e.preventDefault()
-
-    socket.emit('chat message', input)
-    setInput('')
-  }
-
-
 
   return (
-    <>
-     <input type="text" value={roomId} onChange={(e) => setRoomId(e.target.value)}/>
-     <button onClick={() => setJoin(true)}>Join</button>
-      <div>
-        <ul id="messages">{messages.map((message) => <li>{message}</li>)}</ul>
-        <div id="form">
-          <input id="input" autocomplete="off" value={input} onChange={(e) => setInput(e.target.value)} /><button onClick={handleSubmit}>Send</button>
-        </div>
-      </div>
-    </>
+
+    <div className='flex items-center justify-end pr-32 h-screen bg-gray-100 text-gray-900'>
+      <Tabs.Root
+          defaultValue="signin"
+          className="w-full max-w-md h-96"
+      >
+        <Tabs.List>
+          <Tabs.Trigger value="signin"><Heading as="h3">Sign In</Heading></Tabs.Trigger>
+          <Tabs.Trigger value="signup"> <Heading as="h3">Sign Up</Heading></Tabs.Trigger>
+        </Tabs.List>
+
+        <Tabs.Content value="signin">
+             <div className="flex flex-col gap-2">
+         Email : <input type="text" placeholder="email" />
+         Password : <input type="password" placeholder="password" />
+         <Button className="w-full">Sign In</Button>
+         </div>
+        </Tabs.Content>
+        <Tabs.Content value="signup">
+        
+    <div className="flex flex-col gap-2">
+         Name : <input type="text" placeholder="name" />
+         Email : <input type="text" placeholder="email" />
+         Password : <input type="password" placeholder="password" />
+         <Button className="w-full ">Sign Up</Button>
+         </div>
+        </Tabs.Content>
+      </Tabs.Root>
+    </div>
+
   )
 }
 
