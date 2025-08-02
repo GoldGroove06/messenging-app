@@ -15,7 +15,7 @@ function App() {
       <div className='flex items-center justify-end pr-32 h-screen  text-gray-900'>
         <Tabs.Root
           defaultValue="signin"
-          className="w-full max-w-md h-96"
+          className="w-full max-w-md h-96 "
         >
           <Tabs.List>
             <Tabs.Trigger value="signin"><Heading as="h3">Sign In</Heading></Tabs.Trigger>
