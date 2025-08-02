@@ -5,6 +5,11 @@ import { dirname, join } from 'node:path';
 import {Server} from "socket.io";;
 import cors from 'cors';
 import bodyParser from 'body-parser'
+import cookieParser from 'cookie-parser';
+import pkg from 'jsonwebtoken';
+const { verify } = pkg;
+import authRoute from "./routes/authRoute.js";
+import chatRoute from "./routes/chatRoute.js";
 
 
 const app = express();
@@ -24,6 +29,30 @@ app.use(cors({
   origin: 'http://localhost:5173', 
   credentials: true               
 }));
+
+app.use(cookieParser());
+
+app.use("/auth", authRoute)
+
+const secret = 'a santa at nasa';
+
+function authenticateToken(req, res, next) {
+  const token = req.cookies.token;
+
+  if (!token) return res.sendStatus(401);
+
+  try {
+    const decoded = verify(token, secret);
+    req.user = decoded; 
+    next();
+  } catch (err) {
+    res.sendStatus(403);
+  }
+}
+app.use("/chat", authenticateToken, chatRoute);
+app.use("/auth-check", authenticateToken, (req, res) => {
+  res.status(200).json({ message: "Authenticated" });
+});
 
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
