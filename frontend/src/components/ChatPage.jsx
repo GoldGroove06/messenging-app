@@ -97,11 +97,11 @@ export default function ChatPage() {
     }, [messagesEndRef]);
     return (
         <div className='w-full h-screen max-h-screen flex flex-col h-full'>
-            <div className='w-full bg-gray-200 p-2 pl-6 flex flex-row gap-4 h-14'>
+            <div className='w-full bg-gray-200 p-2 pl-6 flex flex-row gap-4 h-12 items-center'>
                 <Avatar.Root>
                     <Avatar.Image src="https://images.unsplash.com/photo-1499714608240-22fc6ad53fb2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80" />
                 </Avatar.Root>
-                <Heading as="h3">
+                <Heading as="h5">
                     John Doe
                 </Heading>
             </div>
@@ -109,7 +109,7 @@ export default function ChatPage() {
             <div className='overflow-hidden h-full'>
                 <ScrollArea.Root>
                     <ScrollArea.Viewport>
-                        <div className='w-full'>
+                        <div className='w-full flex flex-col justify-end'>
                             {chat.map((item) => {
                                 return (
                                     <div key={item.id} className='w-full bg-gray-200 p-2 pl-6 flex flex-row gap-4 items-center'>

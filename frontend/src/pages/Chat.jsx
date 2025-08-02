@@ -11,7 +11,7 @@ const Chat = () => {
     const [message, setMessage] = useState('');
 
     const handleTabChange = (tab) => {
-        
+
         if (tab === 'home') {
             setId(null);
             setName('');
@@ -19,7 +19,7 @@ const Chat = () => {
             setActiveTab(tab);
         }
 
-        else{
+        else {
             setId(tab);
             setName('gold ' + tab);
             setMessage('Hello! How can I help you?');
@@ -29,21 +29,21 @@ const Chat = () => {
     return (
         <div className='flex h-screen bg-gray-100 text-gray-900 w-screen'>
             <Tabs.Root customRootClass='tabs' value={activeTab} onValueChange={handleTabChange} className='flex flex-row w-full'>
-            <ChatsPanel/>
+                <ChatsPanel />
 
-            <Tabs.Content value="home" className='text-gray-900 w-full'>
-                <HomeComp/>
-            </Tabs.Content>
+                <Tabs.Content value="home" className='text-gray-900 w-full'>
+                    <HomeComp />
+                </Tabs.Content>
 
-             <Tabs.Content value={id} className='text-gray-900 w-full'>
-                <ChatPage />
-            </Tabs.Content>
+                <Tabs.Content value={id} className='text-gray-900 w-full'>
+                    <ChatPage />
+                </Tabs.Content>
 
 
             </Tabs.Root>
-      
-            
-            
+
+
+
         </div>
     )
 }

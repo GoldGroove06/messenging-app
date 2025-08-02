@@ -37,38 +37,36 @@ export default function HomeComp() {
                     Add friend
 
                 </Dialog.Trigger>
-                <Dialog.Trigger>
-                    view friends
-                </Dialog.Trigger>
                 <Dialog.Portal>
                     <Dialog.Overlay />
                     <Dialog.Content>
                         <Dialog.Title>
-                            Are you sure you want to delete this account?
+                            Add Friends
                         </Dialog.Title>
                         <Dialog.Description>
-                            This action cannot be undone.
+
                         </Dialog.Description>
 
                         <Dialog.Close>
-                            close
+                            X
                         </Dialog.Close>
                     </Dialog.Content>
 
                 </Dialog.Portal>
 
             </Dialog.Root>
+
             <div className="flex flex-col space-y-4 p-4 w-full">
                 {OnlineUsers.map((user) => (
                     <div key={user.id} className="flex items-center space-x-4 ">
                         <div className="relative w-10 ">
-                        <Avatar.Root className="!w-10 ">
-                            <Avatar.Image src={user.src} />
-                            
-                        </Avatar.Root>
-                        <div className="absolute bottom-0 right-0 bg-teal-500 w-3 h-3 rounded-full border border-gray-300">
-                       
-                        </div>
+                            <Avatar.Root className="!w-10 ">
+                                <Avatar.Image src={user.src} />
+
+                            </Avatar.Root>
+                            <div className="absolute bottom-0 right-0 bg-teal-500 w-3 h-3 rounded-full border border-gray-300">
+
+                            </div>
                         </div>
 
                         <div className="flex justify-between space-x-4 w-full items-center">

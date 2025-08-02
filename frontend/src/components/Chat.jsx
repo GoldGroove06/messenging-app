@@ -12,10 +12,10 @@ function App() {
   const [socket, setSocket] = useState(null);
 
   useEffect(() => {
-    if(!join) return;
+    if (!join) return;
     console.log('join', join)
     const socketInstance = io('http://localhost:3000');
-    
+
     setSocket(socketInstance);
     socketInstance.emit('joinroom', roomId);
     socketInstance.on('chat message', (msg) => {
@@ -38,8 +38,8 @@ function App() {
 
   return (
     <>
-     <input type="text" value={roomId} onChange={(e) => setRoomId(e.target.value)}/>
-     <button onClick={() => setJoin(true)}>Join</button>
+      <input type="text" value={roomId} onChange={(e) => setRoomId(e.target.value)} />
+      <button onClick={() => setJoin(true)}>Join</button>
       <div>
         <ul id="messages">{messages.map((message) => <li>{message}</li>)}</ul>
         <div id="form">
