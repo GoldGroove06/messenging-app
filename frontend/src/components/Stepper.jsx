@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 
 export default function Stepper({
   children,
+  currentStep: controlledStep,
   initialStep = 1,
   onStepChange = () => {},
   onFinalStepCompleted = () => {},
@@ -18,15 +19,18 @@ export default function Stepper({
   renderStepIndicator,
   ...rest
 }) {
-  const [currentStep, setCurrentStep] = useState(initialStep);
+  const isControlled = controlledStep !== undefined;
+  const [internalStep, setInternalStep] = useState(initialStep);
   const [direction, setDirection] = useState(0);
+
+  const currentStep = isControlled ? controlledStep : internalStep;
   const stepsArray = Children.toArray(children);
   const totalSteps = stepsArray.length;
   const isCompleted = currentStep > totalSteps;
   const isLastStep = currentStep === totalSteps;
 
   const updateStep = (newStep) => {
-    setCurrentStep(newStep);
+    if (!isControlled) setInternalStep(newStep); 
     if (newStep > totalSteps) onFinalStepCompleted();
     else onStepChange(newStep);
   };

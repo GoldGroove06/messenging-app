@@ -10,7 +10,6 @@ async function postSignup(req, res) {
       return res.status(400).json({ errors: errors.array() });
     }
     const { name, email, password, confirmPassword, username } = req.body
-
     if (password != confirmPassword) {
       return res.status(400).json({ errors: "password doest match" });
     }
@@ -26,10 +25,11 @@ async function postSignup(req, res) {
           username: username
         }
       })
-      res.status(200).json({m:"signup successful"})
+      console.log("signup successful")
+      return res.status(200).json({m:"signup successful"})
     }
 
-    res.status(500).send("internal server error")
+    return res.status(500).send("internal server error")
 
 
 
