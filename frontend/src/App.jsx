@@ -16,18 +16,18 @@ function App() {
   const [message, setMessage] = useState('')
 
   async function signIn() {
-        const response = await fetch('http://localhost:3000/auth/signin', {
-            method: 'POST',
-            credentials: 'include',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email: email, password: password }),
-        });
-        const data = await response.json();
-        console.log(data)
-        if(data.message=="Logged in"){
-            window.location.href = '/chat';
-        };
-    }
+    const response = await fetch('http://localhost:3000/auth/signin', {
+      method: 'POST',
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: email, password: password }),
+    });
+    const data = await response.json();
+    console.log(data)
+    if (data.message == "Logged in") {
+      window.location.href = '/chat';
+    };
+  }
 
   const handleSubmit = () => {
     if (email && password && passwordConfirm && name && username) {
@@ -41,10 +41,10 @@ function App() {
           headers: {
             'Content-Type': 'application/json',
           },
-          body:JSON.stringify({  name, email, password, confirmPassword: passwordConfirm, username }),
+          body: JSON.stringify({ name, email, password, confirmPassword: passwordConfirm, username }),
         })
-          .then((response) =>{
-            if (response.status == 200 ){
+          .then((response) => {
+            if (response.status == 200) {
               setTab('signin')
               setMessage('')
             }
@@ -57,63 +57,63 @@ function App() {
     }
   }
 
-  const handleEmailSignup= () => {
-      if (email && password && passwordConfirm) {
-        if (password !== passwordConfirm) {
-            setMessage('Passwords do not match');
-            return
-        }
-        else {
-          fetch('http://localhost:3000/auth/check/email', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ email }),
-          })
-            .then((response) =>{
-              if (response.status === 200 ){
-                setMessage('')
-                setStep(3)
-              }
-              else {
-                setMessage('Email already exists')
-              }
-            })
-            
-            .catch((error) => {
-              console.error('Error:', error);
-            });
-        }
+  const handleEmailSignup = () => {
+    if (email && password && passwordConfirm) {
+      if (password !== passwordConfirm) {
+        setMessage('Passwords do not match');
+        return
       }
+      else {
+        fetch('http://localhost:3000/auth/check/email', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ email }),
+        })
+          .then((response) => {
+            if (response.status === 200) {
+              setMessage('')
+              setStep(3)
+            }
+            else {
+              setMessage('Email already exists')
+            }
+          })
+
+          .catch((error) => {
+            console.error('Error:', error);
+          });
+      }
+    }
   }
 
   const handleUsernameSignup = () => {
-      if (username && name) {
+    if (username && name) {
 
-   
-          fetch('http://localhost:3000/auth/check/username', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ username }),
-          })
-            .then((response) =>{
-              if (response.status === 200 ){
-                setMessage('')
-                handleSubmit()
-              }
-              else {
-                setMessage('Username already exists')
-              }
-            })
-            
-            .catch((error) => {
-              console.error('Error:', error);
-            });
-        }
-      }
+
+      fetch('http://localhost:3000/auth/check/username', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username }),
+      })
+        .then((response) => {
+          if (response.status === 200) {
+            setMessage('')
+            handleSubmit()
+          }
+          else {
+            setMessage('Username already exists')
+          }
+        })
+
+        .catch((error) => {
+          console.error('Error:', error);
+        });
+    }
+  }
 
 
   return (
@@ -158,7 +158,7 @@ function App() {
                 initialStep={1}
                 currentStep={step}
                 onStepChange={(step) => {
-                  if (step == 3){
+                  if (step == 3) {
                     handleEmailSignup()
                   }
                   else if (step == 4) {
@@ -179,19 +179,19 @@ function App() {
                 <Step>
                   <h2>Step 1</h2>
                   <p>What is your Email?</p>
-                  <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)}/>
+                  <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
                   <p>Password</p>
-                  <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)}/>
+                  <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
                   <p>Confirm Password</p>
-                  <input type="password" placeholder="Password" value={passwordConfirm} onChange={(e) => setPasswordConfirm(e.target.value)}/>
+                  <input type="password" placeholder="Password" value={passwordConfirm} onChange={(e) => setPasswordConfirm(e.target.value)} />
                   {message && <p className="text-red-500">{message}</p>}
                 </Step>
                 <Step>
                   <Heading as="h2">Step 2</Heading>
                   <p>What is your Name?</p>
-                  <input type="text" placeholder="Name" value={name} onChange={(e) => setName(e.target.value)}/>
+                  <input type="text" placeholder="Name" value={name} onChange={(e) => setName(e.target.value)} />
                   <p>Username</p>
-                  <input type="text" placeholder="Username" value={username} onChange={(e) => setUsername(e.target.value)}/>
+                  <input type="text" placeholder="Username" value={username} onChange={(e) => setUsername(e.target.value)} />
                   {message && <p className="text-red-500">{message}</p>}
                 </Step>
                 <Step>
