@@ -10,6 +10,7 @@ import pkg from 'jsonwebtoken';
 const { verify } = pkg;
 import authRoute from "./routes/authRoute.js";
 import chatRoute from "./routes/chatRoute.js";
+import friendsRoute from "./routes/friendsRoute.js";
 
 
 const app = express();
@@ -34,6 +35,7 @@ app.use(cookieParser());
 
 app.use("/auth", authRoute)
 
+
 const secret = 'a santa at nasa';
 
 function authenticateToken(req, res, next) {
@@ -49,6 +51,7 @@ function authenticateToken(req, res, next) {
     res.sendStatus(403);
   }
 }
+app.use("/friends",authenticateToken, friendsRoute)
 app.use("/chat", authenticateToken, chatRoute);
 app.use("/auth-check", authenticateToken, (req, res) => {
   res.status(200).json({ message: "Authenticated" });

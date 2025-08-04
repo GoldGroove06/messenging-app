@@ -28,6 +28,20 @@ const ChatIcon = () => (<svg width="15" height="15" viewBox="0 0 15 15" fill="no
 const DotIcon = () => (<svg width="30" height="30" viewBox="0 0 15 15" className="text-teal-500" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9.875 7.5C9.875 8.81168 8.81168 9.875 7.5 9.875C6.18832 9.875 5.125 8.81168 5.125 7.5C5.125 6.18832 6.18832 5.125 7.5 5.125C8.81168 5.125 9.875 6.18832 9.875 7.5Z" fill="currentColor"></path></svg>)
 export default function HomeComp() {
     const [isFriendsOpen, setFriendsOpen] = React.useState(false)
+    const [friends, setFriends] = React.useState([])
+
+    React.useEffect(() => {
+       fetch("http://localhost:3000/friends/list",{
+        method:"GET",
+        credentials: 'include'
+           }).then(res => res.json()).then(data => {
+            setFriends(data.friends)
+       }).catch(err => {
+        console.log(err)
+       })
+
+    
+    }, [])
     return (
         <div className="flex flex-col space-y-4 p-4 w-full">
             <Heading as="h3">Friends Online</Heading>
@@ -57,7 +71,7 @@ export default function HomeComp() {
             </Dialog.Root>
 
             <div className="flex flex-col space-y-4 p-4 w-full">
-                {OnlineUsers.map((user) => (
+                {friends.map((user) => (
                     <div key={user.id} className="flex items-center space-x-4 ">
                         <div className="relative w-10 ">
                             <Avatar.Root className="!w-10 ">

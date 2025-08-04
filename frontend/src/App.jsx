@@ -134,7 +134,7 @@ function App() {
               setUsername('')
               setMessage('')
               setStep(1)
-              setTab(tab)
+              setTab()
             }
           }
           className="w-full max-w-md h-96 "

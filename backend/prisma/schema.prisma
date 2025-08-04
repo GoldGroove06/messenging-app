@@ -16,9 +16,48 @@ model Session {
 }
 
 model User {
-  id       Int      @id @default(autoincrement())
-  name     String
-  email    String   @unique
-  password String
-  username String   @unique  
+  id        String   @id @default(uuid())
+  name      String
+  email     String   @unique
+  password  String
+  username  String   @unique
+  online    Boolean  @default(false)
+
+  friends   User[]   @relation("UserFriends")
+  friendsOf User[]   @relation("UserFriends")
+
+  chats     Chat[]   @relation("UserChats")
+
+
+  messages  Message[]
+}
+
+// Chat Model
+model Chat {
+  id     String    @id @default(uuid())
+  users  User[]    @relation("UserChats")
+  names  String[]  
+
+  chat   Message[] 
+}
+
+// Message Model
+model Message {
+  id           String   @id @default(uuid())
+
+  parentId     String?  
+  parent       Message? @relation("MessageThread", fields: [parentId], references: [id])
+  replies      Message[] @relation("MessageThread")
+
+  senderId     String
+  sender       User     @relation(fields: [senderId], references: [id])
+  senderName   String
+
+  chatId       String
+  chat         Chat     @relation(fields: [chatId], references: [id])
+
+  timestamp    DateTime @default(now())
+  read         Boolean  @default(false)
+  notification Boolean  @default(false)
+  text         String
 }
