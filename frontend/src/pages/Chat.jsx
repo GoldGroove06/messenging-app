@@ -36,7 +36,7 @@ const Chat = () => {
                 </Tabs.Content>
 
                 <Tabs.Content value={id} className='text-gray-900 w-full'>
-                    <ChatPage />
+                    <ChatPage userId={id} />
                 </Tabs.Content>
 
 

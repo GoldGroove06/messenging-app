@@ -32,8 +32,7 @@ friendsRoute.get("/chats", async (req, res) => {
            users: true
        }
    })
-   console.log(chats)
-    return res.status(200).json({ friends: friends[0].chats });
+    return res.status(200).json({ chats: chats[0].users });
 });
 
 export default friendsRoute

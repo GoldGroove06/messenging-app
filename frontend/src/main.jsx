@@ -6,6 +6,7 @@ import "@radui/ui/themes/default.css";
 import Theme from "@radui/ui/Theme";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Chat from './pages/Chat.jsx';
+import Logout from './pages/Logout.jsx';
 import AuthChecker from './components/AuthChecker.jsx';
 
 const router = createBrowserRouter([
@@ -20,6 +21,10 @@ const router = createBrowserRouter([
       <Chat/>
     </AuthChecker>
   )
+},
+{
+  path:"/logout",
+  element:<Logout/>
 }
 
 

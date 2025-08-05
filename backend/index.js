@@ -57,6 +57,11 @@ app.use("/auth-check", authenticateToken, (req, res) => {
   res.status(200).json({ message: "Authenticated" });
 });
 
+app.get("/log-out", (req, res) => {
+  res.clearCookie('token');
+  res.redirect('/');
+});
+
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 

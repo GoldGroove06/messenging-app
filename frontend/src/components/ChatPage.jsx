@@ -89,9 +89,9 @@ const chat = [
 
 ]
 
-export default function ChatPage() {
+export default function ChatPage({userId}) {
     const messagesEndRef = React.useRef(null);
-
+    
     React.useEffect(() => {
         messagesEndRef.current?.scrollIntoView();
     }, [messagesEndRef]);

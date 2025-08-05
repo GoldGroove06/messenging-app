@@ -42,6 +42,7 @@ export default function HomeComp() {
 
     
     }, [])
+
     return (
         <div className="flex flex-col space-y-4 p-4 w-full">
             <Heading as="h3">Friends Online</Heading>
