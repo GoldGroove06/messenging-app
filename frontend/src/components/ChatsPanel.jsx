@@ -11,12 +11,13 @@ const ChatsPanel = () => {
     React.useEffect(() => {
             const fetchData = async () => {
                 try {
-                    const response = await fetch("http://localhost:3000/friends/chats", {
+                    const response = await fetch("http://localhost:3000/chat/chats/list", {
                         method: "GET",
                         credentials: 'include'
                     });
                     const data = await response.json();
                     setChatList(data.chats);
+                    console.log(data.chats);
                 } catch (error) {
                     console.error(error);
                 }
@@ -38,7 +39,7 @@ const ChatsPanel = () => {
                                 <Avatar.Root className="!w-15 !h-15">
                                     <Avatar.Image src={item.src} />
                                 </Avatar.Root>
-                                {item.name}
+                                {item.names}
                             </span></Tabs.Trigger>
                         ))}
 

@@ -4,94 +4,115 @@ import Avatar from '@radui/ui/Avatar'
 import Separator from '@radui/ui/Separator'
 import ScrollArea from '@radui/ui/ScrollArea'
 
-const chat = [
-    {
-        id: 1,
-        chatContent: {
-            sender: "John Doe",
-            message: "Hello! How can I help you?",
-            time: "12:00"
-        }
-    },
-    {
-        id: 2,
-        chatContent: {
-            sender: "you",
-            message: "Hello! How can I help you?",
-            time: "12:01"
-        }
-    },
-    {
-        id: 3,
-        chatContent: {
-            sender: "John Doe",
-            message: "Hello! How can I help you?",
-            time: "12:03"
-        }
-    },
-    {
-        id: 4,
-        chatContent: {
-            sender: "you",
-            message: "Hello! How can I help you?",
-            time: "12:04"
-        }
-    },
-    {
-        id: 5,
-        chatContent: {
-            sender: "John Doe",
-            message: "Hello! How can I help you?",
-            time: "12:05"
-        }
-    },
-    {
-        id: 6,
-        chatContent: {
-            sender: "you",
-            message: "Hello! How can I help you?",
-            time: "12:06"
-        }
-    },
-    {
-        id: 7,
-        chatContent: {
-            sender: "John Doe",
-            message: "Hello! How can I help you?",
-            time: "12:07"
-        },
+// const chat = [
+//     {
+//         id: 1,
+//         chatContent: {
+//             sender: "John Doe",
+//             message: "Hello! How can I help you?",
+//             time: "12:00"
+//         }
+//     },
+//     {
+//         id: 2,
+//         chatContent: {
+//             sender: "you",
+//             message: "Hello! How can I help you?",
+//             time: "12:01"
+//         }
+//     },
+//     {
+//         id: 3,
+//         chatContent: {
+//             sender: "John Doe",
+//             message: "Hello! How can I help you?",
+//             time: "12:03"
+//         }
+//     },
+//     {
+//         id: 4,
+//         chatContent: {
+//             sender: "you",
+//             message: "Hello! How can I help you?",
+//             time: "12:04"
+//         }
+//     },
+//     {
+//         id: 5,
+//         chatContent: {
+//             sender: "John Doe",
+//             message: "Hello! How can I help you?",
+//             time: "12:05"
+//         }
+//     },
+//     {
+//         id: 6,
+//         chatContent: {
+//             sender: "you",
+//             message: "Hello! How can I help you?",
+//             time: "12:06"
+//         }
+//     },
+//     {
+//         id: 7,
+//         chatContent: {
+//             sender: "John Doe",
+//             message: "Hello! How can I help you?",
+//             time: "12:07"
+//         },
 
-    },
-    {
-        id: 8,
-        chatContent: {
-            sender: "you",
-            message: "Hello! How can I help you?",
-            time: "12:08"
-        }
-    },
-    {
-        id: 9,
-        chatContent: {
-            sender: "John Doe",
-            message: "Hello! How can I help you?",
-            time: "12:09"
-        }
-    },
-    {
-        id: 10,
-        chatContent: {
-            sender: "you",
-            message: "Hello! How can I help you?",
-            time: "12:10"
-        }
-    },
+//     },
+//     {
+//         id: 8,
+//         chatContent: {
+//             sender: "you",
+//             message: "Hello! How can I help you?",
+//             time: "12:08"
+//         }
+//     },
+//     {
+//         id: 9,
+//         chatContent: {
+//             sender: "John Doe",
+//             message: "Hello! How can I help you?",
+//             time: "12:09"
+//         }
+//     },
+//     {
+//         id: 10,
+//         chatContent: {
+//             sender: "you",
+//             message: "Hello! How can I help you?",
+//             time: "12:10"
+//         }
+//     },
 
-]
+// ]
 
-export default function ChatPage({userId}) {
+export default function ChatPage({ chatId }) {
     const messagesEndRef = React.useRef(null);
-    
+    const [chat, setChat] = React.useState([]);
+    const [senderName, setSenderName] = React.useState('');
+    React.useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await fetch(`http://localhost:3000/chat/messages/${chatId}/10`, {
+                    method: "GET",
+                    credentials: 'include'
+                });
+                const data = await response.json();
+               setChat(data.chat);
+               setSenderName(data.senderName);
+
+               console.log(data)
+            } catch (error) {
+                console.error(error);
+            }
+        }
+
+        fetchData();
+
+    }, [])
     React.useEffect(() => {
         messagesEndRef.current?.scrollIntoView();
     }, [messagesEndRef]);
@@ -102,7 +123,7 @@ export default function ChatPage({userId}) {
                     <Avatar.Image src="https://images.unsplash.com/photo-1499714608240-22fc6ad53fb2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80" />
                 </Avatar.Root>
                 <Heading as="h5">
-                    John Doe
+                    {senderName}
                 </Heading>
             </div>
             <Separator />
@@ -119,11 +140,11 @@ export default function ChatPage({userId}) {
                                         <div>
                                             <div className='flex flex-row gap-2 items-center'>
 
-                                                <div className='font-semibold text-gray-1000'>{item.chatContent.sender}</div>
-                                                <div className='text-sm'>{item.chatContent.time}</div>
+                                                <div className='font-semibold text-gray-1000'>{item.senderName}</div>
+                                                <div className='text-sm'>{item.timestamp}</div>
 
                                             </div>
-                                            <div className='text-gray-950'>{item.chatContent.message}</div>
+                                            <div className='text-gray-950'>{item.text}</div>
                                             <div ref={messagesEndRef} />
                                         </div>
                                     </div>

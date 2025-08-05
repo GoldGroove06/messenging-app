@@ -9,7 +9,7 @@ function AuthChecker({ children }) {
     async function checkAuth() {
       try {
         const res = await fetch('http://localhost:3000/auth-check', {
-          credentials: 'include', // send cookies
+          credentials: 'include',
         });
 
         if (res.ok) {

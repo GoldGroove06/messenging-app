@@ -16,16 +16,18 @@ const Chat = () => {
             setId(null);
             setName('');
             setMessage('');
-            setActiveTab(tab);
+            setActiveTab('home');
         }
 
         else {
             setId(tab);
             setName('gold ' + tab);
             setMessage('Hello! How can I help you?');
-            setActiveTab(tab);
+            setActiveTab(id);
         }
     };
+
+
     return (
         <div className='flex h-screen bg-gray-100 text-gray-900 w-screen'>
             <Tabs.Root customRootClass='tabs' value={activeTab} onValueChange={handleTabChange} className='flex flex-row w-full'>
@@ -36,7 +38,7 @@ const Chat = () => {
                 </Tabs.Content>
 
                 <Tabs.Content value={id} className='text-gray-900 w-full'>
-                    <ChatPage userId={id} />
+                    <ChatPage chatId={id} />
                 </Tabs.Content>
 
 
