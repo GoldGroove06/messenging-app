@@ -17,7 +17,6 @@ const ChatsPanel = () => {
                     });
                     const data = await response.json();
                     setChatList(data.chats);
-                    console.log(data.chats);
                 } catch (error) {
                     console.error(error);
                 }

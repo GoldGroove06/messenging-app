@@ -43,6 +43,18 @@ export default function HomeComp() {
     
     }, [])
 
+    React.useEffect(() => {
+       fetch("http://localhost:3000/friends/add/575b98d5-3817-4be3-8209-42e14f19dd8a",{
+        method:"POST",
+        credentials: 'include'
+           }).then(res => res.json()).then(data => {
+            console.log(data)
+       }).catch(err => {
+        console.log(err)
+       })
+
+    
+    }, [])
     return (
         <div className="flex flex-col space-y-4 p-4 w-full">
             <Heading as="h3">Friends Online</Heading>
