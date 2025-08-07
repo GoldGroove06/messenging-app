@@ -47,6 +47,7 @@ friendsRoute.post("/remove/:userId", async (req, res) => {
 
 friendsRoute.get("/search/:username", async (req,res) => {
      const {username} = req.params
+     console.log('yes')
      const user = await prisma.user.findFirst({where:{username: username}})
      if (user) {
           return res.status(200).json({user: user})
@@ -54,6 +55,7 @@ friendsRoute.get("/search/:username", async (req,res) => {
      else if (!user) {
           return res.status(400).json({ message: "User not found" });
      }
+     
 
      return res.status(400).json({ message: "Something went wrong" });
 })

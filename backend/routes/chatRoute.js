@@ -33,5 +33,12 @@ chatRoute.get("/chats/list", async (req, res) => {
     return res.status(200).json({ chats: chats });
 });
 
+chatRoute.post("/start/:userId", async (req, res) => {
+    const {userId} = req.params
+    const chat = await prisma.chat.create({data: {users: {connect: {id: userId}}}})
+    console.log(chat)
+    return res.status(200).json({ chat: chat });
+})
+
 
 export default chatRoute
