@@ -2,7 +2,7 @@ import express from 'express';
 import { createServer } from 'node:http';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
-import {Server} from "socket.io";;
+import { Server } from "socket.io";;
 import cors from 'cors';
 import bodyParser from 'body-parser'
 import cookieParser from 'cookie-parser';
@@ -11,7 +11,8 @@ const { verify } = pkg;
 import authRoute from "./routes/authRoute.js";
 import chatRoute from "./routes/chatRoute.js";
 import friendsRoute from "./routes/friendsRoute.js";
-
+import { PrismaClient } from '@prisma/client';
+const prisma = new PrismaClient();
 
 const app = express();
 const server = createServer(app);
@@ -27,8 +28,8 @@ app.use(bodyParser.urlencoded())
 app.use(bodyParser.json())
 
 app.use(cors({
-  origin: 'http://localhost:5173', 
-  credentials: true               
+  origin: 'http://localhost:5173',
+  credentials: true
 }));
 
 app.use(cookieParser());
@@ -45,13 +46,13 @@ function authenticateToken(req, res, next) {
 
   try {
     const decoded = verify(token, secret);
-    req.user = decoded; 
+    req.user = decoded;
     next();
   } catch (err) {
     res.sendStatus(403);
   }
 }
-app.use("/friends",authenticateToken, friendsRoute)
+app.use("/friends", authenticateToken, friendsRoute)
 app.use("/chat", authenticateToken, chatRoute);
 app.use("/auth-check", authenticateToken, (req, res) => {
   res.status(200).json({ message: "Authenticated" });
@@ -71,20 +72,34 @@ app.get('/', (req, res) => {
 
 
 
-  io.on('connection', (socket) => {
-   socket.on('joinroom', (room) => {
+io.on('connection', (socket) => {
+  socket.on('joinroom', (room) => {
     socket.join(room)
-     io.sockets.in(room).emit('chat message', 'your are in room '+ room )
     console.log('a user connected')
-    socket.on('chat message', (msg) => {
-        io.sockets.in(room).emit('chat message', msg)
+    socket.on('chat message', async (msg) => {
+      const chat = await prisma.message.create({
+        data: {
+          text: msg,
+          chat: {
+            connect: {
+              id: room
+            }
+          },
+          senderName: "arsh",
+          sender:{
+            connect: {
+              id: '01a0f492-5076-488a-90dc-a4d2656a85ce'
+            }
+          }
+        }
+      })
+      io.sockets.in(room).emit('chat message', chat)
     })
-    socket.on('disconnect', ()=> {
-        console.log('user disconnected')
+    socket.on('disconnect', () => {
+      console.log('user disconnected')
     })
+  })
 
-   })
-   
 })
 
 server.listen(3000, () => {
