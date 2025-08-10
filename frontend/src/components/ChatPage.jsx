@@ -17,8 +17,10 @@ export default function ChatPage({ chatId }) {
 
     useEffect(() => {
 
-    
-        const socketInstance = io('http://localhost:3000');
+
+        const socketInstance = io('http://localhost:3000',{
+            withCredentials: true 
+        });
 
         setSocket(socketInstance);
         socketInstance.emit('joinroom', chatId);

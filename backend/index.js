@@ -19,7 +19,8 @@ const server = createServer(app);
 const io = new Server(server, {
   cors: {
     origin: ['http://localhost:5173'],
-    methods: ["GET", "POST"]
+    methods: ["GET", "POST"],
+    credentials: true
   }
 });
 app.use(bodyParser.urlencoded())
@@ -70,12 +71,24 @@ app.get('/', (req, res) => {
   res.sendFile(join(__dirname, 'index.html'));
 });
 
-
+io.use((socket, next) => {
+  try {
+    const token = socket.request.headers.cookie.slice(6);
+    if (!token) {
+      return next(new Error('Authentication token required'));
+    }
+    const decoded = verify(token, secret);
+    socket.user = decoded;
+    next();
+  } catch (err) {
+    next(new Error('authentication error'))
+  }
+})
 
 io.on('connection', (socket) => {
   socket.on('joinroom', (room) => {
     socket.join(room)
-    console.log('a user connected')
+    console.log('index.js : a user connected')
     socket.on('chat message', async (msg) => {
       const chat = await prisma.message.create({
         data: {
@@ -85,10 +98,10 @@ io.on('connection', (socket) => {
               id: room
             }
           },
-          senderName: "arsh",
-          sender:{
+          senderName: socket.user.name,
+          sender: {
             connect: {
-              id: '01a0f492-5076-488a-90dc-a4d2656a85ce'
+              id: socket.user.id
             }
           }
         }
