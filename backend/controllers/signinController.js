@@ -16,13 +16,13 @@ async function postSignin(req, res) {
         if (!user[0]) res.status(400).json({ message: "No user found" });
         const isMatch = await compare(password, user[0].password);
         if (!isMatch) res.status(400).json({ message: "Incorrect password" });
-        const token = sign({ id: user[0].id, email: user[0].email }, secret, {
+        const token = sign({ id: user[0].id, email: user[0].email, username: user[0].username, name: user[0].name, online: user[0].online }, secret, {
             expiresIn: '1h'
         });
 
         res.cookie('token', token, {
             httpOnly: true,
-            secure: false, // set to true in production with HTTPS
+            secure: false,
             sameSite: 'lax',
             maxAge: 3600000
         });

@@ -70,7 +70,7 @@ export default function HomeComp() {
    }
 
    const startStart = async (id) => {
-        await fetch(`http://localhost:3000/chat/start/383739e9-8b73-4fef-9aa8-a51332a056a3`,{
+        await fetch(`http://localhost:3000/chat/start/${id}`,{
         method:"POST",
         credentials: 'include'
            }).then(res => res.json()).then(data => {

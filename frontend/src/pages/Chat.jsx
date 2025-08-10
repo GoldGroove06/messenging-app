@@ -7,26 +7,20 @@ import HomeComp from '../components/HomeComp';
 const Chat = () => {
     const [activeTab, setActiveTab] = useState('home');
     const [id, setId] = useState(null);
-    const [name, setName] = useState('');
-    const [message, setMessage] = useState('');
 
     const handleTabChange = (tab) => {
 
         if (tab === 'home') {
             setId(null);
-            setName('');
-            setMessage('');
             setActiveTab('home');
         }
 
         else {
             setId(tab);
-            setName('gold ' + tab);
-            setMessage('Hello! How can I help you?');
             setActiveTab(id);
         }
     };
-
+    console.log(activeTab)
 
     return (
         <div className='flex h-screen bg-gray-100 text-gray-900 w-screen'>
