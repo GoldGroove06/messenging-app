@@ -4,6 +4,11 @@ import Heading from '@radui/ui/Heading'
 import DarkVeilBg from './components/DarkVeilBg'
 import Stepper, { Step } from './components/Stepper'
 import Button from '@radui/ui/Button'
+import Text from '@radui/ui/Text'
+import { motion, AnimatePresence } from "framer-motion";
+
+
+const CheckIcon = () => (<svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M11.4669 3.72684C11.7558 3.91574 11.8369 4.30308 11.648 4.59198L7.39799 11.092C7.29783 11.2452 7.13556 11.3467 6.95402 11.3699C6.77247 11.3931 6.58989 11.3355 6.45446 11.2124L3.70446 8.71241C3.44905 8.48022 3.43023 8.08494 3.66242 7.82953C3.89461 7.57412 4.28989 7.55529 4.5453 7.78749L6.75292 9.79441L10.6018 3.90792C10.7907 3.61902 11.178 3.53795 11.4669 3.72684Z" fill="currentColor" fill-rule="evenodd" clip-rule="evenodd"></path></svg>)
 
 function App() {
   const [tab, setTab] = useState('signin')
@@ -74,7 +79,7 @@ function App() {
           .then((response) => {
             if (response.status === 200) {
               setMessage('')
-              setStep(3)
+              setStep(2)
             }
             else {
               setMessage('Email already exists')
@@ -117,11 +122,15 @@ function App() {
 
 
   return (
-    <div className="h-screen w-screen relative">
+    <div className="h-screen w-screen relative flex items-center justify-center ">
       <div className="absolute inset-0 -z-10 ">
         <DarkVeilBg />
       </div>
-      <div className='flex items-center justify-end pr-32 h-screen  text-gray-900'>
+      <div className='flex lg:flex-row flex-col  backdrop-blur bg-black/70 gap-8  text-gray-900 p-16 rounded-3xl'>
+        <div>
+          <Heading as="h2" className="text-gray-1000">Where Conversations Happen</Heading>
+          <p className="text-gray-950">Hang Out. Chat. Repeat.</p>
+        </div>
         <Tabs.Root
           defaultValue="signin"
           value={tab}
@@ -137,66 +146,77 @@ function App() {
               setTab()
             }
           }
-          className="w-full max-w-md h-96 "
+          className=''
         >
-          <Tabs.List>
+          <Tabs.List className="">
             <Tabs.Trigger value="signin"><Heading as="h3">Sign In</Heading></Tabs.Trigger>
             <Tabs.Trigger value="signup"> <Heading as="h3">Sign Up</Heading></Tabs.Trigger>
           </Tabs.List>
 
           <Tabs.Content value="signin">
-            <div className="flex flex-col gap-2">
-              Email : <input type="text" placeholder="email" value={email} onChange={(e) => setEmail(e.target.value)} />
-              Password : <input type="password" placeholder="password" value={password} onChange={(e) => setPassword(e.target.value)} />
-              <Button className="w-full" onClick={signIn}>Sign In</Button>
-            </div>
-          </Tabs.Content>
-          <Tabs.Content value="signup">
 
-            <div className="flex flex-col gap-2 py-16">
+
+            <motion.div
+              style={{
+                position: "relative",
+                overflow: "hidden",
+                transformOrigin: "top", // ✅ anchor to top
+                // ✅ keeps container height fixed
+              }}
+              animate={{ scaleY: 1 }} // ✅ smooth grow/shrink
+              initial={{ scaleY: 0 }}
+              transition={{ type: "spring", duration: 0.45 }}
+              className="flex flex-col "
+            >
+              <Text className="font-semibold">Email : </Text><input type="text" placeholder="email" value={email} onChange={(e) => setEmail(e.target.value)} className="bg-gray-400 text-gray-1000 placeholder:text-gray-900 placeholder:text-sm items-center rounded pl-1 mb-2" />
+
+              <Text className="font-semibold">Password : </Text> <input type="password" placeholder="password" value={password} onChange={(e) => setPassword(e.target.value)} className="bg-gray-400 text-gray-1000 placeholder:text-gray-900 placeholder:text-sm placeholder:items-center rounded pl-1" />
+              <Button className="w-full mt-4" onClick={signIn}>Sign In</Button>
+            </motion.div>
+
+
+          </Tabs.Content>
+          <Tabs.Content value="signup" className="">
+
+            <div className="flex flex-col gap-2 ">
               <Stepper
-                initialStep={1}
+
                 currentStep={step}
                 onStepChange={(step) => {
-                  if (step == 3) {
+                  if (step == 2) {
                     handleEmailSignup()
                   }
-                  else if (step == 4) {
+                  else if (step == 3) {
                     handleUsernameSignup()
-                  }
-                  else {
+                  } else {
                     setStep(step)
                   }
+
                 }}
-                onFinalStepCompleted={() => console.log("All steps completed!")}
+                onFinalStepCompleted={() => setTab('signin')}
                 backButtonText="Previous"
                 nextButtonText="Next"
+                className=''
               >
                 <Step>
-                  <h2>Welcome to the Messsaging App</h2>
-                  <p>Click Next to Sign Up</p>
+                  <p className="font-semibold">What is your Email?</p>
+                  <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} className="bg-gray-400 text-gray-1000 placeholder:text-gray-900 placeholder:text-sm items-center rounded pl-1 mb-2" />
+                  <p className="font-semibold">Password</p>
+                  <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} className="bg-gray-400 text-gray-1000 placeholder:text-gray-900 placeholder:text-sm items-center rounded pl-1 mb-2" />
+                  <p className="font-semibold">Confirm Password</p>
+                  <input type="password" placeholder="Password" value={passwordConfirm} onChange={(e) => setPasswordConfirm(e.target.value)} className="bg-gray-400 text-gray-1000 placeholder:text-gray-900 placeholder:text-sm items-center rounded pl-1 mb-2" />
+                  {message && <p className="text-red-600 bg-red-100 p-2 rounded-2xl mt-2">{message}</p>}
                 </Step>
                 <Step>
-                  <h2>Step 1</h2>
-                  <p>What is your Email?</p>
-                  <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
-                  <p>Password</p>
-                  <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
-                  <p>Confirm Password</p>
-                  <input type="password" placeholder="Password" value={passwordConfirm} onChange={(e) => setPasswordConfirm(e.target.value)} />
-                  {message && <p className="text-red-500">{message}</p>}
+
+                  <p className="font-semibold">What is your Name?</p>
+                  <input type="text" placeholder="Name" value={name} onChange={(e) => setName(e.target.value)} className="bg-gray-400 text-gray-1000 placeholder:text-gray-900 placeholder:text-sm items-center rounded pl-1 mb-2" />
+                  <p className="font-semibold">Username</p>
+                  <input type="text" placeholder="Username" value={username} onChange={(e) => setUsername(e.target.value)} className="bg-gray-400 text-gray-1000 placeholder:text-gray-900 placeholder:text-sm items-center rounded pl-1 mb-2" />
+                  {message && <p className="text-red-600 bg-red-100 p-2 rounded-2xl mt-2">{message}</p>}
                 </Step>
                 <Step>
-                  <Heading as="h2">Step 2</Heading>
-                  <p>What is your Name?</p>
-                  <input type="text" placeholder="Name" value={name} onChange={(e) => setName(e.target.value)} />
-                  <p>Username</p>
-                  <input type="text" placeholder="Username" value={username} onChange={(e) => setUsername(e.target.value)} />
-                  {message && <p className="text-red-500">{message}</p>}
-                </Step>
-                <Step>
-                  <h2>Final Step</h2>
-                  <p>You made it!</p>
+                  <CheckIcon />
                 </Step>
 
               </Stepper>
