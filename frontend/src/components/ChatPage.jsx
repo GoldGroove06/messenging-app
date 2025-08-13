@@ -5,6 +5,7 @@ import Separator from '@radui/ui/Separator'
 import ScrollArea from '@radui/ui/ScrollArea'
 import { io } from 'socket.io-client';
 import { useEffect } from 'react';
+import Button from '@radui/ui/Button'
 import { useState } from 'react';
 
 export default function ChatPage({ chatId }) {
@@ -64,33 +65,33 @@ export default function ChatPage({ chatId }) {
     }, [messagesEndRef]);
     return (
         <div className='w-full h-screen max-h-screen flex flex-col h-full'>
-            <div className='w-full bg-gray-200 p-2 pl-6 flex flex-row gap-4 h-12 items-center'>
+            <div className='w-full flex flex-row items-center pb-2 mb-0 pl-6 gap-3 items-center pt-2 bg-black/20 border border-x-0 border-t-0 border-purple-400'>
                 <Avatar.Root>
                     <Avatar.Image src="https://images.unsplash.com/photo-1499714608240-22fc6ad53fb2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80" />
                 </Avatar.Root>
-                <Heading as="h5">
+                <Heading as="h5" className='text-gray-1000'>
                     {senderName}
                 </Heading>
             </div>
-            <Separator />
+            
             <div className='overflow-hidden h-full'>
                 <ScrollArea.Root>
                     <ScrollArea.Viewport>
                         <div className='w-full flex flex-col justify-end'>
                             {chat.map((item) => {
                                 return (
-                                    <div key={item.id} className='w-full bg-gray-200 p-2 pl-6 flex flex-row gap-4 items-center'>
+                                    <div key={item.id} className='w-full p-2 pl-6 flex flex-row gap-4 items-center'>
                                         <Avatar.Root>
                                             <Avatar.Image src="https://images.unsplash.com/photo-1499714608240-22fc6ad53fb2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80" />
                                         </Avatar.Root>
                                         <div>
                                             <div className='flex flex-row gap-2 items-center'>
 
-                                                <div className='font-semibold text-gray-1000'>{item.senderName}</div>
-                                                <div className='text-sm'>{item.timestamp}</div>
+                                                <div className='font-bold text-gray-1000'>{item.senderName}</div>
+                                                <div className='text-sm'>{item.timestamp.split('T')[0]} {item.timestamp.split('T')[1].split('.')[0]}</div>
 
                                             </div>
-                                            <div className='text-gray-950'>{item.text}</div>
+                                            <div className='text-gray-1000'>{item.text}</div>
                                             <div ref={messagesEndRef} />
                                         </div>
                                     </div>
@@ -104,9 +105,9 @@ export default function ChatPage({ chatId }) {
                     </ScrollArea.Scrollbar>
                 </ScrollArea.Root>
             </div>
-            <div className='w-full bg-gray-200 p-2 pl-6 flex flex-row gap-4 items-center h-10'>
-                <input type="text" placeholder='type here' className='flex flex-1 items-center px-2 rounded-md border border-gray-400 text-gray-700' value={input} onChange={(e) => setInput(e.target.value)} />
-                <button onClick={handleSubmit}>Send</button>
+            <div className='w-full px-4 mt-2 pl-6 flex flex-row gap-4 items-center h-18 mb-4'>
+                <input type="text" placeholder='Message' className='flex flex-1 items-center p-4 bg-transparent rounded-md border border-purple-400 bg-black/10 text-gray-1000 placeholder:text-gray-900 focus:outline-none' value={input} onChange={(e) => setInput(e.target.value)} />
+                <Button onClick={handleSubmit} >Send</Button>
             </div>
         </div>
     )

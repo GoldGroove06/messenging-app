@@ -128,8 +128,8 @@ function App() {
       </div>
       <div className='flex lg:flex-row flex-col  backdrop-blur bg-black/70 gap-8  text-gray-900 p-16 rounded-3xl'>
         <div>
-          <Heading as="h2" className="text-gray-1000">Where Conversations Happen</Heading>
-          <p className="text-gray-950">Hang Out. Chat. Repeat.</p>
+          <Heading as="h2" className="text-gray-1000 max-w-md">Where Conversations Happen</Heading>
+          <p className="text-gray-950 mt-1 font-semibold  tracking-wider">Hang Out. Chat. Repeat.</p>
         </div>
         <Tabs.Root
           defaultValue="signin"
@@ -146,7 +146,7 @@ function App() {
               setTab()
             }
           }
-          className=''
+          className='w-80'
         >
           <Tabs.List className="">
             <Tabs.Trigger value="signin"><Heading as="h3">Sign In</Heading></Tabs.Trigger>
@@ -166,7 +166,7 @@ function App() {
               animate={{ scaleY: 1 }} // ✅ smooth grow/shrink
               initial={{ scaleY: 0 }}
               transition={{ type: "spring", duration: 0.45 }}
-              className="flex flex-col "
+              className="flex flex-col"
             >
               <Text className="font-semibold">Email : </Text><input type="text" placeholder="email" value={email} onChange={(e) => setEmail(e.target.value)} className="bg-gray-400 text-gray-1000 placeholder:text-gray-900 placeholder:text-sm items-center rounded pl-1 mb-2" />
 
