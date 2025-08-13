@@ -65,7 +65,7 @@ export default function ChatPage({ chatId }) {
     }, [messagesEndRef]);
     return (
         <div className='w-full h-screen max-h-screen flex flex-col h-full'>
-            <div className='w-full flex flex-row items-center pb-2 mb-0 pl-6 gap-3 items-center pt-2 bg-black/20 border border-x-0 border-t-0 border-purple-400'>
+            <div className='w-full flex flex-row items-center pb-3 mb-0 pl-6 gap-3 items-center pt-3 bg-black/20 border border-x-0 border-t-0 border-purple-400'>
                 <Avatar.Root>
                     <Avatar.Image src="https://images.unsplash.com/photo-1499714608240-22fc6ad53fb2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80" />
                 </Avatar.Root>
@@ -100,8 +100,8 @@ export default function ChatPage({ chatId }) {
                         </div>
                     </ScrollArea.Viewport>
 
-                    <ScrollArea.Scrollbar orientation='vertical'>
-                        <ScrollArea.Thumb />
+                    <ScrollArea.Scrollbar orientation='vertical' className="!bg-purple-300">
+                        <ScrollArea.Thumb className="!bg-black/30 backdrop-blur"/>
                     </ScrollArea.Scrollbar>
                 </ScrollArea.Root>
             </div>

@@ -82,10 +82,10 @@ export default function HomeComp() {
     }
 
     return (
-        <div className="flex flex-col space-y-4 p-4 w-full">
-            <div className="flex flex-row items-center space-x-4">
+        <div className="flex flex-col space-y-4 p-4 w-full mx-auto max-w-7xl">
+            <div className="flex flex-row items-center justify-between space-x-4 p-4 rounded-xl bg-black/20 border border-purple-300">
             <Heading as="h5" className='text-gray-950'>Friends</Heading>
-
+            <div className="flex flex-row items-center space-x-4">
             <Dialog.Root open={isFriendsOpen} onOpenChange={setFriendsOpen}>
                 <Dialog.Trigger >
                     Add friend
@@ -176,8 +176,9 @@ export default function HomeComp() {
 
             </Dialog.Root>
             </div>
+            </div>
 
-            <div className="flex flex-col space-y-4 p-4 w-full">
+            <div className="flex flex-col space-y-4 p-4 w-full ">
                 {friends.map((user) => (
                     user.online && (
                         <div key={user.id} className="flex items-center space-x-4 ">
