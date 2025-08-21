@@ -49,6 +49,7 @@ friendsRoute.get("/search/:username", async (req,res) => {
      const {username} = req.params
      console.log('yes')
      const user = await prisma.user.findFirst({where:{username: username}})
+     console.log(user)
      if (user) {
           return res.status(200).json({user: user})
      }

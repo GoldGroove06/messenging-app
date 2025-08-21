@@ -23,7 +23,7 @@ const Chat = () => {
     console.log(activeTab)
 
     return (
-        <div className='flex h-screen text-gray-900 w-screen bg-[linear-gradient(225deg,#050512_0%,#0a0c25_25%,#121433_50%,#1a1945_75%,#241d55_100%)]'>
+        <div className='flex h-screen text-gray-900 w-screen bg-[linear-gradient(225deg,#0a0a1a_0%,#10122a_25%,#181b3a_50%,#201f4b_75%,#29225b_100%)]'>
             <Tabs.Root customRootClass='tabs' value={activeTab} onValueChange={handleTabChange} className='flex flex-row w-full'>
                 <ChatsPanel activeTab={activeTab} />
 

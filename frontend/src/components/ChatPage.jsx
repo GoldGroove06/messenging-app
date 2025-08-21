@@ -106,7 +106,7 @@ export default function ChatPage({ chatId }) {
                 </ScrollArea.Root>
             </div>
             <div className='w-full px-4 mt-2 pl-6 flex flex-row gap-4 items-center h-18 mb-4'>
-                <input type="text" placeholder='Message' className='flex flex-1 items-center p-4 bg-transparent rounded-md border border-purple-400 bg-black/10 text-gray-1000 placeholder:text-gray-900 focus:outline-none' value={input} onChange={(e) => setInput(e.target.value)} />
+                <input type="text" placeholder='Message' className='flex flex-1 items-center p-4 bg-transparent rounded-md border border-purple-400 bg-black/15 text-gray-1000 placeholder:text-gray-900 focus:outline-none' value={input} onChange={(e) => setInput(e.target.value)} />
                 <Button onClick={handleSubmit} >Send</Button>
             </div>
         </div>

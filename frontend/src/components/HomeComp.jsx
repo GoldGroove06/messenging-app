@@ -31,7 +31,7 @@ const AddIcon = () => (<svg width="18" height="12" viewBox="0 0 15 15" fill="non
 export default function HomeComp() {
     const [isFriendsOpen, setFriendsOpen] = React.useState(false)
     const [friends, setFriends] = React.useState([])
-    const [searchResult, setSearchResult] = React.useState([])
+    const [searchResult, setSearchResult] = React.useState()
     const [searchUsername, setSearchUsername] = React.useState("")
 
     React.useEffect(() => {
@@ -48,15 +48,17 @@ export default function HomeComp() {
     }, [])
 
     const handleSearch = async () => {
-        await fetch(`http://localhost:3000/friends/search/${searchUsername}`, {
+        const response = await fetch(`http://localhost:3000/friends/search/${searchUsername}`, {
             method: "GET",
             credentials: 'include'
-        }).then(res => res.json()).then(data => {
-            setSearchResult([data.user])
-            console.log(data)
-        }).catch(err => {
-            console.log(err)
-        })
+        });
+        if (response.ok) {
+            const data = await response.json();
+            setSearchResult([data.user]);
+        }
+        else {
+            setSearchResult([]);
+        }
     }
 
     const addFriend = async (id) => {
@@ -92,21 +94,24 @@ export default function HomeComp() {
 
                 </Dialog.Trigger>
                 <Dialog.Portal>
-                    <Dialog.Overlay />
-                    <Dialog.Content>
+                    <Dialog.Overlay  className="!bg-black/30"/>
+                    <Dialog.Content className="!bg-black/90 !border !border-purple-300 !px-12 !p-8">
                         <Dialog.Title>
                             Add Friends
                         </Dialog.Title>
                         <Dialog.Description>
-                            <input type="text" placeholder="Enter username" className="border border-gray-300 rounded-md p-2" value={searchUsername} onChange={(e) => setSearchUsername(e.target.value)} />
-                            <button onClick={handleSearch}>Search</button>
+                            <div className='flex flex-row items-center space-x-4 lg:w-[80%]'>
+                            <input type="text" placeholder="Enter username" className="border border-purple-400 bg-black text-gray-1000 placeholder:text-gray-700 focus:outline-none rounded-md p-2 w-full" value={searchUsername} onChange={(e) => setSearchUsername(e.target.value)} />
+                            <Button onClick={handleSearch}>Search</Button>
+                            </div>
+                            { searchResult && searchResult.length === 0 && <p className='text-gray-1000'>No user found</p>}
                             {searchResult && (
-                                <div>
+                                <div className='mt-3'>
                                     {searchResult.map((user) => (
-                                        <div key={user.id} className="flex items-center space-x-4">
+                                        <div key={user.id} className="flex items-center space-x-4 mt-1">
                                             <div className="relative w-10">
                                                 <Avatar.Root className="!w-10">
-                                                    <Avatar.Image src={user.src} />
+                                                    {/* <Avatar.Image src={user.src} /> */}
                                                 </Avatar.Root>
                                                 <div className="absolute bottom-0 right-0 bg-teal-500 w-3 h-3 rounded-full border border-gray-300" />
                                             </div>
@@ -138,12 +143,12 @@ export default function HomeComp() {
 
                 </Dialog.Trigger>
                 <Dialog.Portal>
-                    <Dialog.Overlay />
-                    <Dialog.Content>
+                    <Dialog.Overlay className="!bg-black/30"/>
+                    <Dialog.Content className="!bg-black/90 !border !border-purple-300 !px-12 !p-8">
                         <Dialog.Title>
                             Friends
                         </Dialog.Title>
-                        <Dialog.Description>
+                        <Dialog.Description className='flex flex-col space-y-4 items-cente' >
                             {friends.map((user) => (
                                 <div key={user.id} className="flex items-center space-x-4 ">
                                     <div className="relative w-10 ">
@@ -158,7 +163,7 @@ export default function HomeComp() {
 
                                     <div className="flex justify-between space-x-4 w-full items-center">
                                         <Text className='text-gray-1000'>{user.name}</Text>
-                                        <div>
+                                        <div className='flex items-center'>
                                             <Button onClick={() => startStart(user.id)}><ChatIcon /></Button>
                                             <Button><VerticalDots /></Button>
                                         </div>
