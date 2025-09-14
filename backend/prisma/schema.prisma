@@ -21,6 +21,7 @@ model User {
   email     String   @unique
   password  String
   username  String   @unique
+  lastseen  DateTime 
   online    Boolean  @default(false)
 
   friends   User[]   @relation("UserFriends")

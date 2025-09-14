@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import ChatsPanel from '../components/ChatsPanel'
 import Tabs from '@radui/ui/Tabs'
 import ChatPage from '../components/ChatPage'
@@ -21,6 +21,18 @@ const Chat = () => {
         }
     };
     console.log(activeTab)
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            console.log("auth online")
+      fetch(`http://localhost:3000/online/ping`, {
+                method: 'GET',
+                credentials: 'include'
+            });
+    }, 30000);
+
+    return () => clearInterval(interval);
+    }, [])
 
     return (
         <div className='flex h-screen text-gray-900 w-screen bg-[linear-gradient(225deg,#0a0a1a_0%,#10122a_25%,#181b3a_50%,#201f4b_75%,#29225b_100%)]'>

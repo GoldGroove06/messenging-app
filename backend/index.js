@@ -11,6 +11,7 @@ const { verify } = pkg;
 import authRoute from "./routes/authRoute.js";
 import chatRoute from "./routes/chatRoute.js";
 import friendsRoute from "./routes/friendsRoute.js";
+import onlineRoute from "./routes/onlineRoute.js";
 import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
@@ -55,6 +56,7 @@ function authenticateToken(req, res, next) {
 }
 app.use("/friends", authenticateToken, friendsRoute)
 app.use("/chat", authenticateToken, chatRoute);
+app.use("/online", authenticateToken, onlineRoute);
 app.use("/auth-check", authenticateToken, (req, res) => {
   res.status(200).json({ message: "Authenticated" });
 });

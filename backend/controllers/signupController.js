@@ -22,7 +22,8 @@ async function postSignup(req, res) {
           name: name,
           email: email,
           password: hashedPassword,
-          username: username
+          username: username,
+          lastseen: new Date()
         }
       })
       console.log("signup successful")
